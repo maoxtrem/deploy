@@ -1,0 +1,16 @@
+services: 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.spartamgym
+    volumes:
+      - ./local/spartamgym:/var/www/html:cached
+    restart: unless-stopped
+    networks:
+      - proxy-net
+    ports:
+      - 80:80
+
+networks:
+  proxy-net:
+    external: true

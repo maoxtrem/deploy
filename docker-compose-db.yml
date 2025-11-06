@@ -1,0 +1,24 @@
+
+services:
+  db:
+    image: mariadb:10.4
+    restart: unless-stopped
+    mem_limit: 512m
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+    networks:
+      - proxy-net
+    ports:
+      - "3306:3306"   # Puerto externo 3307 → interno 3306
+
+volumes:
+  mariadb-data:
+
+networks:
+  proxy-net:
+    external: true

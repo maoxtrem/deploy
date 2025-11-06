@@ -1,0 +1,4 @@
+# Ignorar todo el contenido de la carpeta
+/local/*
+# Pero no ignorar este archivo
+!/local/.gitignore
