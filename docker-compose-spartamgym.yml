@@ -4,12 +4,12 @@ services:
       context: .
       dockerfile: Dockerfile.spartamgym
     volumes:
-      - ./local/spartamgym:/var/www/html:cached
+      - ./local/spartamgym:/var/www/html/spartamgym:cached
     restart: unless-stopped
     networks:
       - proxy-net
     ports:
-      #- 80:80
+      - 80:80
 
 networks:
   proxy-net:

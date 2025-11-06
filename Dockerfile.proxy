@@ -16,7 +16,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/apache2/ssl/spartamgym.local.crt
 
 # Copiar configuración de Apache (VirtualHosts)
-COPY ./proxy.conf /etc/apache2/sites-available/000-default.conf
+COPY apache2-proxy.conf /etc/apache2/sites-available/000-default.conf
 
 # Exponer HTTP y HTTPS
 EXPOSE 80 443
