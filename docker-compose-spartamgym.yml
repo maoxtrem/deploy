@@ -1,5 +1,5 @@
 services: 
-  app:
+  spartamgym:
     build:
       context: .
       dockerfile: Dockerfile.spartamgym
@@ -9,7 +9,7 @@ services:
     networks:
       - proxy-net
     ports:
-      - 80:80
+      #- 80:80
 
 networks:
   proxy-net:

@@ -14,7 +14,7 @@ services:
     networks:
       - proxy-net
     ports:
-      - "3306:3306"   # Puerto externo 3307 → interno 3306
+      - "3306:3306"   # expone el puerto 3306
 
 volumes:
   mariadb-data:
