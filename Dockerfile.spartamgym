@@ -30,7 +30,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN curl -sS https://get.symfony.com/cli/installer | bash \
     && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
 
-COPY apache2-spartamgym.conf /etc/apache2/sites-enable/000-default.conf
+COPY apache2-spartamgym.conf /etc/apache2/sites-available/000-default.conf
 
 COPY apache2-custom.ini /usr/local/etc/php/conf.d/
 
@@ -38,5 +38,7 @@ WORKDIR /var/www/html/spartamgym
 
 RUN chmod -R 755 /var/www/html/spartamgym
 RUN chown -R www-data:www-data /var/www/html/spartamgym
+
+RUN a2ensite 000-default.conf
 
 
