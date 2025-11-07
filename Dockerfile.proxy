@@ -22,7 +22,7 @@ COPY apache2-proxy.conf /etc/apache2/sites-available/000-default.conf
 EXPOSE 80 443
 
 # Arrancar Apache en primer plano
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+RUN a2ensite 000-default.conf
 
 
 
