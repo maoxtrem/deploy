@@ -9,8 +9,8 @@ services:
     mem_limit: 1024m
     networks:
       - proxy-net
-    ports:
-      - 80:80
+    #ports:
+    #  - 80:80
 
 networks:
   proxy-net:
