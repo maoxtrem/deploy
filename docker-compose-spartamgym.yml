@@ -6,6 +6,7 @@ services:
     volumes:
       - ./local/spartamgym:/var/www/html/spartamgym:cached
     restart: unless-stopped
+    mem_limit: 1024m
     networks:
       - proxy-net
     ports:

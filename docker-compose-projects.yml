@@ -6,6 +6,7 @@ services:
     volumes:
       - ./local/projects:/var/www/html/projects:cached
     restart: unless-stopped
+    mem_limit: 1024m
     networks:
       - proxy-net
     ports:
