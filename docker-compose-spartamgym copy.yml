@@ -1,0 +1,16 @@
+services: 
+  spartamgym:
+    build:
+      context: .
+      dockerfile: Dockerfile.projects
+    volumes:
+      - ./local/projects:/var/www/html/projects:cached
+    restart: unless-stopped
+    networks:
+      - proxy-net
+    ports:
+      - 80:80
+
+networks:
+  proxy-net:
+    external: true
