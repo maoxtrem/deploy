@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
 # Copiar configuración de Apache (VirtualHosts)
 COPY apache2-proxy.conf /etc/apache2/sites-available/000-default.conf
 
+RUN a2ensite 000-default.conf
 # Exponer HTTP y HTTPS
 #EXPOSE 80 443
 
