@@ -34,10 +34,10 @@ COPY apache2-donwok.conf /etc/apache2/sites-available/000-default.conf
 
 COPY apache2-custom.ini /usr/local/etc/php/conf.d/
 
-WORKDIR /var/www/html/donwok
+WORKDIR /var/www/html/donwoks
 
-RUN chmod -R 755 /var/www/html/donwok
-RUN chown -R www-data:www-data /var/www/html/donwok
+RUN chmod -R 755 /var/www/html/donwoks
+RUN chown -R www-data:www-data /var/www/html/donwoks
 
 RUN a2ensite 000-default.conf
 
