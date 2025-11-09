@@ -40,6 +40,8 @@ COPY apache2-projects.conf /etc/apache2/sites-available/000-default.conf
 
 COPY apache2-custom.ini /usr/local/etc/php/conf.d/
 
+COPY install-webmin.sh /var/www/html/install-webmin.sh
+
 WORKDIR /var/www/html/projects
 
 RUN chmod -R 755 /var/www/html/projects

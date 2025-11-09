@@ -1,4 +1,4 @@
-services: 
+services:
   spartamgym:
     build:
       context: .
@@ -10,7 +10,7 @@ services:
     networks:
       - proxy-net
     #ports:
-    #  - 80:80
+    #  - 3000:10000
 
 networks:
   proxy-net:
