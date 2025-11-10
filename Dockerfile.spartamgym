@@ -1,44 +1,40 @@
-FROM mcr.microsoft.com/devcontainers/php:1-8.2-bookworm
+# Etapa de build
+FROM composer:2 AS build
+WORKDIR /app
+COPY ./local/spartamgym .
+RUN composer install --no-dev --optimize-autoloader
 
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get upgrade -y
+# Etapa final (producción)
+FROM php:8.2-fpm
 
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y mariadb-client \ 
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=noninteractive
 
+# Instalar solo lo necesario para extensiones PHP
 RUN apt-get update && apt-get install -y \
+    mariadb-client \
     libicu-dev \
     zlib1g-dev \
     libxml2-dev \
     libzip-dev \
-    unzip \
-    && docker-php-ext-install \
-    mysqli \
-    pdo_mysql \
-    intl \
-    zip \
+    && docker-php-ext-install pdo_mysql intl zip \
     && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y curl \
-    && curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
-# Instalación de Symfony CLI
-RUN curl -sS https://get.symfony.com/cli/installer | bash \
-    && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
-
-COPY install-webmin.sh /var/www/html/install-webmin.sh
-
-COPY apache2-spartamgym.conf /etc/apache2/sites-available/000-default.conf
-
-COPY apache2-custom.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /var/www/html/spartamgym
 
-RUN chmod -R 755 /var/www/html/spartamgym
-RUN chown -R www-data:www-data /var/www/html/spartamgym
+# Copiar código y dependencias desde la etapa de build
+COPY --from=build /app /var/www/html/spartamgym
 
-RUN a2ensite 000-default.conf
+# Ajustar permisos
+RUN chown -R www-data:www-data /var/www/html/spartamgym \
+    && chmod -R 755 /var/www/html/spartamgym
+
+
+CMD ["php-fpm"]
+
+
+
+
+
+
+
+

@@ -5,13 +5,19 @@ services:
       dockerfile: Dockerfile.spartamgym
     volumes:
       - ./local/spartamgym:/var/www/html/spartamgym:cached
+      - spartamgym-vendor:/var/www/html/spartamgym/vendor
+
     restart: unless-stopped
     mem_limit: 1024m
+    cpus: "1"
     networks:
       - proxy-net
-    #ports:
-    #  - 3000:10000
+
+volumes:
+  spartamgym-vendor:
+
 
 networks:
   proxy-net:
     external: true
+

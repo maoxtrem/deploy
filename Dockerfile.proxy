@@ -5,16 +5,16 @@ RUN apt-get update && apt-get install -y \
     apache2 openssl \
     && a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests headers rewrite ssl \
     && rm -rf /var/lib/apt/lists/*
-
-# Crear carpeta para certificados
-# RUN mkdir -p /etc/apache2/ssl
-
-# Generar certificado autofirmado directamente en el contenedor
-# RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-#    -subj "/C=CO/ST=Santander/L=Trapiche/O=LocalDev/CN=spartamgym.local" \
-#    -keyout /etc/apache2/ssl/spartamgym.local.key \
-#    -out /etc/apache2/ssl/spartamgym.local.crt
-
+#
+## Crear carpeta para certificados
+#RUN mkdir -p /etc/apache2/ssl
+##
+## Generar certificado autofirmado directamente en el contenedor
+#RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+#    -subj "/C=CO/ST=Santander/L=Trapiche/O=LocalDev/CN=webmin-spartamgym.local" \
+#    -keyout /etc/apache2/ssl/webmin-spartamgym.local.key \
+#    -out /etc/apache2/ssl/webmin-spartamgym.local.crt
+#
 # Copiar configuración de Apache (VirtualHosts)
 COPY apache2-proxy.conf /etc/apache2/sites-available/000-default.conf
 

@@ -2,3 +2,5 @@
 /local/*
 # Pero no ignorar este archivo
 !/local/.gitignore
+
+*.dev*

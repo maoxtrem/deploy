@@ -4,6 +4,7 @@ services:
     image: mariadb:10.4
     restart: unless-stopped
     mem_limit: 256m
+    cpus: "1"
     volumes:
       - mariadb-data:/var/lib/mysql
     environment:
