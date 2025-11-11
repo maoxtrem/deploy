@@ -1,0 +1,28 @@
+services:
+  projects:
+    build:
+      context: .
+      dockerfile: Dockerfile.projects
+    volumes:
+      - ./local/projects:/var/www/html/projects:cached
+      - projects-vendor:/var/www/html/projects/vendor
+      - projects-node_modules:/var/www/html/projects/node_modules
+      - projects-build:/var/www/html/projects/public/build
+
+    restart: unless-stopped
+    #mem_limit: 2024m
+    #cpus: "4"
+    networks:
+      - proxy-net
+    #ports:
+    # - "5000:80"
+volumes:
+  projects-vendor:
+  projects-node_modules:
+  projects-build:
+
+
+networks:
+  proxy-net:
+    external: true
+

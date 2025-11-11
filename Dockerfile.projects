@@ -1,0 +1,65 @@
+# ============================
+# Etapa 1: Build de dependencias PHP con Composer
+# ============================
+FROM php:8.3-fpm AS build
+
+# Instalar librerías necesarias para extensiones
+RUN apt-get update && apt-get install -y \
+    git unzip mariadb-client \
+    libicu-dev zlib1g-dev libxml2-dev libzip-dev \
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip intl pdo_mysql \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+#
+RUN apt-get update && apt-get install -y curl gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app/projects
+COPY ./local/projects .
+#
+## Instalar dependencias PHP
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
+
+RUN npm install && npm run build
+#
+## ============================
+## Etapa 3: Imagen final de producción
+## ============================
+FROM php:8.3-fpm
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instalar extensiones necesarias también en la imagen final
+RUN apt-get update && apt-get install -y \
+    mariadb-client \
+    libicu-dev zlib1g-dev libxml2-dev libzip-dev \
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip intl pdo_mysql \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www/html/projects
+#
+## Copiar dependencias y build desde las etapas anteriores
+COPY --from=build /app/projects /var/www/html/projects
+
+#
+## Ajustar permisos
+RUN chown -R www-data:www-data /var/www/html/projects \
+    && chmod -R 755 /var/www/html/projects
+
+USER www-data
+
+CMD ["php-fpm"]
+
+
+
+
+
+
